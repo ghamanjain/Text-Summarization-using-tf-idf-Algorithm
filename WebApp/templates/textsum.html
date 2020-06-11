@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Summarization</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+*{	margin:0;
+	padding:0;
+	font-family:Century Gothic;
+
+}
+body{
+    background:url(https://wpamelia.com/wp-content/uploads/2019/02/4k-wallpaper-architecture-background-1308624.jpg);
+}
+header{
+     height:75px;
+     width:1600px;
+	 background:#121212;
+     position:fixed;
+}
+.area{
+ background:#212121;
+  border-radius:15px;
+  font-family:Comic Sans MS;
+   box-shadow: 0 15px 19px 0 rgba(0,0,0,0.24),0 20px 55px 0 rgba(0,0,0,0.19);
+  color:#fff;
+  outline:none;
+  font-size:15px;
+}
+::-webkit-scrollbar{width:3px; background:#212121;
+cursor:pointer;}
+::-webkit-scrollbar-track{
+ -webkit-box-shadow:inset 0 0 8px rgba(0,0,0,0.3);
+ border-radius:5px;
+}
+::-webkit-scrollbar-thumb{
+ border-radius:10px;
+ background:#fff;
+}
+ul{
+	float:right;
+	list-style-type: none;
+	margin-top:25px;
+}
+ul li{
+	display:inline-block;
+}
+ul li a{
+	text-decoration:none;
+	color:#fff;
+	padding: 5px 20px;
+	border:1px solid transparent;
+	transition:0.6s ease;
+}
+ul li a:hover{
+		background-color:#fff;
+		color:black;	}
+.main{
+	max-width:1200px;
+	margin:auto;
+}
+ul li.active a{
+	     background-color:#fff;
+	color:black;
+}
+
+.head{
+     position:absolute;
+	top:20%;
+	align:center;
+
+	left:3%;
+	transform:translate(-10%,-10%);
+        color:#fff;
+	font-size:40px;
+
+
+}
+.div1 {
+	position:absolute;
+	top:52%;
+	left:50%;
+
+	border-radius:5px;;
+	height:630px;
+	width:790px;
+	transform:translate(-50%,-50%);
+
+}
+
+
+.button{
+	position:absolute;
+	top:85%;
+	left:25%;
+    margin-top:50px;
+    padding:10px;
+
+
+}
+@keyframes animate{
+	0%{
+		transform:scale(0);
+	}
+	100%{
+		transform:scale(1);
+	}
+}
+
+.btn{
+	border:none;
+	height:35px;
+	width:185px;
+	font-size:15px;
+	margin-top:20px;
+	align:center;
+	border-radius:5px;
+	outline:none;
+	padding:10px 30px;
+	color:#fff;
+    background-color:#4CAF50;
+
+	text-decoration:none;
+	transition:0.6s ease;
+	Animation:animate 1s 1;
+}
+.btn:hover{
+	background-color:#56574D;
+	 box-shadow: 0 12px 16px 0 rgba(0,0,0,0.40),0 17px 50px 0 rgba(0,0,0,0.30);
+		color:#fff;
+		outline:none;
+	transition:0.6s ease;
+cursor:pointer;	}
+.slctbtn{
+	border:none;
+	height:35px;
+	width:185px;
+	font-size:15px;
+	margin-top:20px;
+	align:center;
+	border-radius:5px;
+	outline:none;
+	padding:10px 30px;
+	color:#fff;
+    background-color:#0779e4;
+	text-decoration:none;
+	transition:0.6s ease;
+	Animation:animate 1s 1;
+}
+.slctbtn:hover{
+	background-color:#035aa6;
+	 box-shadow: 0 12px 16px 0 rgba(0,0,0,0.40),0 17px 50px 0 rgba(0,0,0,0.30);
+		color:#fff;
+		outline:none;
+	transition:0.6s ease;
+cursor:pointer;	}
+.slctbtn{
+
+}
+</style>
+<script>
+    function valid()
+{
+    var textVal=document.getElementById("tid").value;
+    if (!textVal.match(/\S/))
+    {
+        alert("Field is blank");
+        return false;
+
+
+    }
+    else{
+    return true;
+    }
+
+ }
+</script>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+             <a class="navbar-brand" href="#">Text Summarization</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+             </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                 <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active">
+                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+                        </a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!--            <div class="container">-->
+<!--                <h1 class="head">Summarizer</h1>-->
+<!--                    <ul>-->
+<!--                        <li class="active"><a href="#">Home</a></li>-->
+<!--                        <li><a href="#">Registration</a></li>-->
+<!--                        <li><a href="#">About</a></li>-->
+<!--                        <li><a href="#">Contacts Us</a></li>-->
+<!--                    </ul>-->
+<!--            </div>-->
+    </header>
+    <form action="result" onsubmit="valid()">
+        <div class="div1">
+            <div class="title">
+                <center>
+                <pre><textarea placeholder="Paste text here...." name="t1" id="tid" class="area" rows="5" cols="30" style="padding: 40px 40px 40px 40px; width: 754px; width: 754px; height: 600px;" required>
+
+                </textarea>
+                </pre>
+                    </select>
+
+                        <div class="button">
+                            <center>
+                                <select  class ="btn btn-primary" name="t2" id="size" style="width: 200px;">
+                                    <option value="1.0">Small</option>
+                                    <option value="0.7">Medium</option>
+                                    <option value="0.5">Large</option>
+                                </select>
+                                <Input type="submit"  value="Summarize" class="btn btn-primary">
+                            </center>
+                        </div>
+                </center>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
