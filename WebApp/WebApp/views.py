@@ -25,6 +25,9 @@ def format(request):
     result = summarization(text_string,size)
     return render(request,"result.html",{'result':result,'text1':text_string})
 
+
+
+
 def reload(request):
     return render(request,"textsum.html")
 
@@ -39,11 +42,11 @@ def frequency(sentences):
 
     for sent in sentences:
         freq_table = {}
-        words = word_tokenize(sent)
+        words = word_tokenize(sent) #converting words of sentence into tokens
 
         for word in words:
             word = word.lower()
-            word = ps.stem(word)
+            word = ps.stem(word) #finding the root word 
 
             if word in stopWords:
                 continue 
@@ -61,7 +64,7 @@ def frequency(sentences):
 
 
 
-def tf(freq):
+def tf(freq):   #function for calculating term frequency 
     tf_dict = {}
 
     for sent, frequency in freq.items():
@@ -93,7 +96,7 @@ def total_frequency_wordd(freq):
 
 
 
-def idf(freq, total_frequency_word, total_sentences):
+def idf(freq, total_frequency_word, total_sentences):  #function for calculating idf values
     idf_val = {}
 
     for sent, idf_dict in freq.items():
@@ -110,16 +113,16 @@ def idf(freq, total_frequency_word, total_sentences):
 
 
 
-def tf_idf(tf_values, idf_values):
+def tf_idf(tf_values, idf_values): #function for calculating tf-idf values
     tf_idf_val = {}
 
     for (sent1, freq1), (sent2, freq2) in zip(tf_values.items(), idf_values.items()):
 
         tf_idf_table = {}
 
-        for (word1, value1), (word2, value2) in zip(freq1.items(), freq2.items()):
+        for (word1, value1), (word2, value2) in zip(freq1.items(), freq2.items()): #here the values of both the key is same 
 
-            tf_idf_table[word1] = float(value1 * value2)
+            tf_idf_table[word1] = float(value1 * value2)  #multiplication of tf and idf value for each term
 
         tf_idf_val[sent1] = tf_idf_table
 
@@ -129,7 +132,7 @@ def tf_idf(tf_values, idf_values):
 
 
 
-def scoring(tf_idf_values) -> dict:
+def scoring(tf_idf_values) -> dict: 
     
     sentence_scoring = {}
 
@@ -140,7 +143,7 @@ def scoring(tf_idf_values) -> dict:
         count = len(value_dict)
         for word, score in value_dict.items():
             
-            total_score += score
+            total_score += score  #calculation of total score for each sentence
 
         sentence_scoring[sent] = total_score / count
 
@@ -149,7 +152,7 @@ def scoring(tf_idf_values) -> dict:
 
 
 
-def thresholdd(sentence_scoring) -> int:
+def thresholdd(sentence_scoring) -> int: # function for calculating threshold value with the help of average value
     
     total_score = 0
     for entry in sentence_scoring:
@@ -161,14 +164,14 @@ def thresholdd(sentence_scoring) -> int:
 
 
 
-def summary(sentences, sentence_scoring, threshold):
-
+def summary(sentences, sentence_scoring, threshold): #summary production with the help of important sentences
+                                                     #sentence score larger than threshold value
     
     summary = ''
 
     for sentence in sentences:
         
-        if sentence in sentence_scoring and sentence_scoring[sentence] >= (threshold):
+        if sentence in sentence_scoring and sentence_scoring[sentence] >= (threshold):  #only those sentences are used for summary whose score is larger than threshold
             
             summary += " " + sentence
             
@@ -179,7 +182,7 @@ def summary(sentences, sentence_scoring, threshold):
 
 
 
-def summarization(text,size):
+def summarization(text,size): #9 steps implementation for text_summarization
     """
     :text: Plain text of long article (user input)
     :return: summarized text
